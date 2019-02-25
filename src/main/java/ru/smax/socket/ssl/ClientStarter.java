@@ -19,29 +19,21 @@ public class ClientStarter {
     }
 
     private static class ClientThread extends Thread {
-        private final SSLSocket socket;
-
-        private ClientThread() throws IOException {
-            this.socket = (SSLSocket) SSLSocketFactory.getDefault()
-                                                      .createSocket(HOST, PORT);
-        }
-
         @Override
         public void run() {
             System.out.println("Client thread started");
-            try {
+            try (final SSLSocket socket = createSslSocket()) {
                 socket.startHandshake();
                 System.out.println("Socket connected");
                 socket.getInputStream();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
 
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        private SSLSocket createSslSocket() throws IOException {
+            return (SSLSocket) SSLSocketFactory.getDefault()
+                                               .createSocket(HOST, PORT);
         }
     }
 }
