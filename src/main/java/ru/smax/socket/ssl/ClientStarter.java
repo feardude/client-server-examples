@@ -14,20 +14,18 @@ public class ClientStarter {
     public static void main(String[] args) throws Exception {
         log.info("Starting Client...");
 
-        final ClientThread clientThread = new ClientThread();
+        final Thread clientThread = new Client();
         clientThread.start();
         clientThread.join();
 
         log.info("Shutting down Client...");
     }
 
-    private static class ClientThread extends Thread {
+    private static class Client extends Thread {
         @Override
         public void run() {
-            log.info("Client thread started");
+            log.info("Client started");
             try (final SSLSocket socket = createSslSocket()) {
-                socket.startHandshake();
-                log.info("Socket connected");
                 socket.getInputStream();
             } catch (IOException e) {
                 log.error("Could not create SSL Socket", e);
@@ -35,8 +33,16 @@ public class ClientStarter {
         }
 
         private SSLSocket createSslSocket() throws IOException {
-            return (SSLSocket) SSLSocketFactory.getDefault()
-                                               .createSocket(HOST, PORT);
+            return configuredSslSocket(
+                    (SSLSocket) SSLSocketFactory.getDefault()
+                                                .createSocket(HOST, PORT)
+            );
+        }
+
+        private SSLSocket configuredSslSocket(SSLSocket socket) throws IOException {
+            socket.startHandshake();
+            log.info("Handshake was successful");
+            return socket;
         }
     }
 }
