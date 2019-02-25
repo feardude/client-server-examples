@@ -12,9 +12,25 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.16.2'
+    def version = [
+            lombok : '1.16.10',
+            
+            netty: '4.1.33.Final',
+
+            slf4j  : '1.7.25',
+            log4j  : '1.2.17',
+
+            junit  : '4.12',
+    ]
     
-    compile 'io.netty:netty-all:4.1.33.Final'
+    compileOnly "org.projectlombok:lombok:${version.lombok}"
     
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "io.netty:netty-all:${version.netty}"
+    
+    // Logging
+    compile "org.slf4j:slf4j-api:${version.slf4j}"
+    runtime "org.slf4j:slf4j-log4j12:${version.slf4j}"
+    runtime "log4j:log4j:${version.log4j}"
+    
+    testCompile "junit:junit:${version.junit}"
 }

@@ -1,5 +1,7 @@
 package ru.smax.socket.ssl;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
@@ -7,27 +9,28 @@ import java.io.IOException;
 import static ru.smax.socket.ssl.Config.HOST;
 import static ru.smax.socket.ssl.Config.PORT;
 
+@Slf4j
 public class ClientStarter {
     public static void main(String[] args) throws Exception {
-        System.out.println("Starting Client...");
+        log.info("Starting Client...");
 
         final ClientThread clientThread = new ClientThread();
         clientThread.start();
         clientThread.join();
 
-        System.out.println("Shutting down Client...");
+        log.info("Shutting down Client...");
     }
 
     private static class ClientThread extends Thread {
         @Override
         public void run() {
-            System.out.println("Client thread started");
+            log.info("Client thread started");
             try (final SSLSocket socket = createSslSocket()) {
                 socket.startHandshake();
-                System.out.println("Socket connected");
+                log.info("Socket connected");
                 socket.getInputStream();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Could not create SSL Socket", e);
             }
         }
 

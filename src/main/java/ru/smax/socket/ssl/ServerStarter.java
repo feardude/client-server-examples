@@ -1,5 +1,7 @@
 package ru.smax.socket.ssl;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.net.ssl.SSLServerSocketFactory;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -11,15 +13,16 @@ import java.net.SocketTimeoutException;
 
 import static ru.smax.socket.ssl.Config.PORT;
 
+@Slf4j
 class ServerStarter {
     public static void main(String[] args) throws InterruptedException {
-        System.out.println("Starting new Server.Listener...");
+        log.info("Starting new Server.Listener...");
 
         final Thread listener = new Listener();
         listener.start();
         listener.join();
 
-        System.out.println("Shutting down Server...");
+        log.info("Shutting down Server...");
     }
 
     private static class Listener extends Thread {
@@ -28,18 +31,18 @@ class ServerStarter {
         @Override
         public void run() {
             try (final ServerSocket serverSocket = createServerSocket()) {
-                System.out.println("Listener started");
+                log.info("Listener started");
 
                 int current = 0;
                 int maxTries = 2;
 
                 while (current < maxTries) {
                     current++;
-                    System.out.println("Waiting for connection...");
+                    log.info("Waiting for connection...");
                     handleRequest(serverSocket);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Could not create SSL ServerSocket", e);
             }
         }
 
@@ -57,16 +60,16 @@ class ServerStarter {
 
         private void handleRequest(ServerSocket serverSocket) {
             try (final Socket socket = serverSocket.accept()) {
-                System.out.println("Request received");
+                log.info("Request received");
                 try (final OutputStream outputStream = new BufferedOutputStream(socket.getOutputStream())) {
                     outputStream.write(123);
                     outputStream.flush();
                 }
-                System.out.println("Request was processed successfully");
+                log.info("Request was processed successfully");
             } catch (SocketTimeoutException e) {
-                System.out.println("ServerSocket timeout");
+                log.error("ServerSocket timeout");
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Could not handle request", e);
             }
         }
     }
