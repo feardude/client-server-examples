@@ -4,7 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.UUID;
 
 import static ru.smax.socket.ssl.Config.HOST;
 import static ru.smax.socket.ssl.Config.PORT;
@@ -26,7 +29,15 @@ public class ClientStarter {
         public void run() {
             log.info("Client started");
             try (final SSLSocket socket = createSslSocket()) {
-                socket.getInputStream();
+                final String uuid = UUID.randomUUID().toString() + "\n";
+                socket.getOutputStream().write(uuid.getBytes());
+                socket.getOutputStream().flush();
+
+                new BufferedReader(new InputStreamReader(
+                        socket.getInputStream()
+                )).lines()
+                  .forEach(log::info);
+
             } catch (IOException e) {
                 log.error("Could not create SSL Socket", e);
             }

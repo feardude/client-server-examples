@@ -3,9 +3,9 @@ package ru.smax.socket.ssl;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.SSLServerSocketFactory;
-import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -61,10 +61,13 @@ class ServerStarter {
         private void handleRequest(ServerSocket serverSocket) {
             try (final Socket socket = serverSocket.accept()) {
                 log.info("Request received");
-                try (final OutputStream outputStream = new BufferedOutputStream(socket.getOutputStream())) {
-                    outputStream.write(123);
-                    outputStream.flush();
+
+                try (final BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+                    final String input = reader.readLine();
+                    socket.getOutputStream().write(String.format("ECHO: %s", input).getBytes());
+                    socket.getOutputStream().flush();
                 }
+
                 log.info("Request was processed successfully");
             } catch (SocketTimeoutException e) {
                 log.error("ServerSocket timeout");
