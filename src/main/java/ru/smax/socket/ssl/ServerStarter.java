@@ -16,23 +16,23 @@ import static ru.smax.socket.ssl.Config.PORT;
 @Slf4j
 class ServerStarter {
     public static void main(String[] args) throws InterruptedException {
-        log.info("Starting new Server.Listener...");
+        log.info("Starting Server...");
 
-        final Thread listener = new Listener();
+        final Thread listener = new Server();
         listener.start();
         listener.join();
 
         log.info("Shutting down Server...");
     }
 
-    private static class Listener extends Thread {
+    private static class Server extends Thread {
         private static final int MAX_CONNECTIONS = 1;
 
         @Override
         public void run() {
-            try (final ServerSocket serverSocket = createServerSocket()) {
-                log.info("Listener started");
+            log.info("Server started");
 
+            try (final ServerSocket serverSocket = createServerSocket()) {
                 int current = 0;
                 int maxTries = 2;
 
