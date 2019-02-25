@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 import static ru.smax.socket.ssl.Config.PORT;
 
 class ServerStarter {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Starting new Server.Listener...");
 
         final Thread listener = new Listener();
@@ -23,42 +24,47 @@ class ServerStarter {
 
     private static class Listener extends Thread {
         private static final int MAX_CONNECTIONS = 1;
-        private final ServerSocket socket;
-
-        Listener() throws IOException {
-            this.socket = SSLServerSocketFactory.getDefault()
-                                                .createServerSocket(PORT, MAX_CONNECTIONS);
-            this.socket.setSoTimeout(30_000);
-        }
 
         @Override
         public void run() {
-            System.out.println("Listener started");
+            try (final ServerSocket serverSocket = createServerSocket()) {
+                System.out.println("Listener started");
 
-            int current = 0;
-            int maxTries = 2;
+                int current = 0;
+                int maxTries = 2;
 
-            while (current < maxTries) {
-                current++;
-                System.out.println("Waiting for connection...");
-
-                try (final Socket accept = socket.accept()) {
-                    System.out.println("Request received");
-                    try (final OutputStream outputStream = new BufferedOutputStream(accept.getOutputStream())) {
-                        outputStream.write(123);
-                        outputStream.flush();
-                    }
-                    System.out.println("Request was processed successfully");
-                } catch (SocketTimeoutException e) {
-                    System.out.println("Socket timeout");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    break;
+                while (current < maxTries) {
+                    current++;
+                    System.out.println("Waiting for connection...");
+                    handleRequest(serverSocket);
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
 
-            try {
-                socket.close();
+        private ServerSocket createServerSocket() throws IOException {
+            return configuredSocket(
+                    SSLServerSocketFactory.getDefault()
+                                          .createServerSocket(PORT, MAX_CONNECTIONS)
+            );
+        }
+
+        private ServerSocket configuredSocket(ServerSocket serverSocket) throws SocketException {
+            serverSocket.setSoTimeout(30_000);
+            return serverSocket;
+        }
+
+        private void handleRequest(ServerSocket serverSocket) {
+            try (final Socket socket = serverSocket.accept()) {
+                System.out.println("Request received");
+                try (final OutputStream outputStream = new BufferedOutputStream(socket.getOutputStream())) {
+                    outputStream.write(123);
+                    outputStream.flush();
+                }
+                System.out.println("Request was processed successfully");
+            } catch (SocketTimeoutException e) {
+                System.out.println("ServerSocket timeout");
             } catch (IOException e) {
                 e.printStackTrace();
             }
