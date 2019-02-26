@@ -48,9 +48,10 @@ public class TimeClient {
         }
 
         private static Bootstrap getBootstrap(EventLoopGroup workerGroup) {
+
             return new Bootstrap().group(workerGroup)
                                   .channel(NioSocketChannel.class)
-                                  .handler(ChildHandlerInitializer.of(TimeClientHandler.class))
+                                  .handler(ChildHandlerInitializer.of(TimeDecoder.class, TimeClientHandler.class))
                                   .option(SO_KEEPALIVE, KEEP_ALIVE);
         }
     }
