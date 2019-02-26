@@ -21,7 +21,7 @@ public class EchoHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        log.error("Exception", cause);
+        log.error(cause.getLocalizedMessage());
         ctx.close();
     }
 }
