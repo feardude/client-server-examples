@@ -12,7 +12,7 @@ import static ru.smax.config.ServerConfig.HOST;
 import static ru.smax.config.ServerConfig.PORT;
 
 @Slf4j
-public class Server {
+public class NettyServer {
     public static void main(String[] args) {
         try {
             Starter.run();
@@ -25,7 +25,7 @@ public class Server {
         private static final int MAX_CONNECTIONS = 1;
 
         private static void run() throws InterruptedException {
-            log.info("Starting Server...");
+            log.info("Starting NettyServer...");
 
             final NioEventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
             final NioEventLoopGroup workerEventLoopGroup = new NioEventLoopGroup();
@@ -34,12 +34,12 @@ public class Server {
                 final ServerBootstrap serverBootstrap = getServerBootstrap(bossEventLoopGroup, workerEventLoopGroup);
                 final ChannelFuture channelFuture = serverBootstrap.bind(HOST, PORT)
                                                                    .sync();
-                log.info("Server started");
+                log.info("NettyServer started");
 
                 channelFuture.channel()
                              .closeFuture()
                              .sync();
-                log.info("Shutting down Server...");
+                log.info("Shutting down NettyServer...");
             } finally {
                 workerEventLoopGroup.shutdownGracefully();
                 bossEventLoopGroup.shutdownGracefully();
