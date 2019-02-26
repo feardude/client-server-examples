@@ -16,13 +16,13 @@ import static ru.smax.config.ServerConfig.PORT;
 @Slf4j
 class ServerStarter {
     public static void main(String[] args) throws InterruptedException {
-        log.info("Starting DiscardServerHandler...");
+        log.info("Starting Server...");
 
         final Thread listener = new Server();
         listener.start();
         listener.join();
 
-        log.info("Shutting down DiscardServerHandler...");
+        log.info("Shutting down Server...");
     }
 
     private static class Server extends Thread {
@@ -30,7 +30,7 @@ class ServerStarter {
 
         @Override
         public void run() {
-            log.info("DiscardServerHandler started");
+            log.info("Server started");
 
             try (final ServerSocket serverSocket = createServerSocket()) {
                 int current = 0;
