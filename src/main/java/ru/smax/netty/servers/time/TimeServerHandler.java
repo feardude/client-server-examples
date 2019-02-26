@@ -9,7 +9,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TimeHandler extends ChannelInboundHandlerAdapter {
+public class TimeServerHandler extends ChannelInboundHandlerAdapter {
     private static final int INTEGER_BYTE_SIZE = 4;
 
     private static int currentTime() {

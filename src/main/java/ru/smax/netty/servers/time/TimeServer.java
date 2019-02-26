@@ -54,7 +54,7 @@ public class TimeServer {
         private static ServerBootstrap getServerBootstrap(NioEventLoopGroup bossGroup, NioEventLoopGroup workerGroup) {
             return new ServerBootstrap().group(bossGroup, workerGroup)
                                         .channel(NioServerSocketChannel.class)
-                                        .childHandler(ChildHandlerInitializer.of(TimeHandler.class))
+                                        .childHandler(ChildHandlerInitializer.of(TimeServerHandler.class))
                                         .option(SO_BACKLOG, MAX_CONNECTIONS)
                                         .childOption(SO_KEEPALIVE, KEEP_ALIVE);
         }
