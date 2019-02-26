@@ -1,4 +1,4 @@
-package ru.smax.netty.servers.time;
+package ru.smax.netty.servers.time.client;
 
 import static io.netty.channel.ChannelOption.SO_KEEPALIVE;
 import static ru.smax.config.ServerConfig.HOST;

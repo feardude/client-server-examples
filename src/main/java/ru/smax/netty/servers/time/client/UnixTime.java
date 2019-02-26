@@ -1,4 +1,4 @@
-package ru.smax.netty.servers.time;
+package ru.smax.netty.servers.time.client;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
