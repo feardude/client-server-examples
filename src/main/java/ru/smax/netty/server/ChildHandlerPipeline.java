@@ -7,6 +7,8 @@ public class ChildHandlerPipeline extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) {
         ch.pipeline()
-          .addLast(new DiscardHandler());
+          .addLast(new EchoHandler())
+//          .addLast(new DiscardHandler())
+        ;
     }
 }
