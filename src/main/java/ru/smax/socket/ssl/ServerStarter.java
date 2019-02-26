@@ -11,18 +11,18 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
-import static ru.smax.socket.ssl.Config.PORT;
+import static ru.smax.config.ServerConfig.PORT;
 
 @Slf4j
 class ServerStarter {
     public static void main(String[] args) throws InterruptedException {
-        log.info("Starting Server...");
+        log.info("Starting DiscardServerHandler...");
 
         final Thread listener = new Server();
         listener.start();
         listener.join();
 
-        log.info("Shutting down Server...");
+        log.info("Shutting down DiscardServerHandler...");
     }
 
     private static class Server extends Thread {
@@ -30,7 +30,7 @@ class ServerStarter {
 
         @Override
         public void run() {
-            log.info("Server started");
+            log.info("DiscardServerHandler started");
 
             try (final ServerSocket serverSocket = createServerSocket()) {
                 int current = 0;

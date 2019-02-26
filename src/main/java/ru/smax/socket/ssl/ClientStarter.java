@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
-import static ru.smax.socket.ssl.Config.HOST;
-import static ru.smax.socket.ssl.Config.PORT;
+import static ru.smax.config.ServerConfig.HOST;
+import static ru.smax.config.ServerConfig.PORT;
 
 @Slf4j
 public class ClientStarter {
