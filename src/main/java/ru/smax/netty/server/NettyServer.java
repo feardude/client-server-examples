@@ -49,7 +49,7 @@ public class NettyServer {
         private static ServerBootstrap getServerBootstrap(NioEventLoopGroup bossGroup, NioEventLoopGroup workerGroup) {
             return new ServerBootstrap().group(bossGroup, workerGroup)
                                         .channel(NioServerSocketChannel.class)
-                                        .childHandler(new ChildHandlerPipeline())
+                                        .childHandler(ChildHandlerInitializer.of(EchoHandler.class))
                                         .option(SO_BACKLOG, MAX_CONNECTIONS)
                                         .childOption(SO_KEEPALIVE, true);
         }
