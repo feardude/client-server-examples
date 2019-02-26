@@ -1,8 +1,7 @@
-package ru.smax.netty.server;
+package ru.smax.netty.servers.time;
 
 import static io.netty.channel.ChannelFutureListener.CLOSE;
 import static java.time.Instant.EPOCH;
-import static java.time.temporal.ChronoUnit.HOURS;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
