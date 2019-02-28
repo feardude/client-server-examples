@@ -1,16 +1,16 @@
-package ru.smax.socket.ssl;
+package ru.smax.examples.java_ssl_socket;
 
-import lombok.extern.slf4j.Slf4j;
+import static ru.smax.examples.config.ServerConfig.HOST;
+import static ru.smax.examples.config.ServerConfig.PORT;
 
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
-import static ru.smax.config.ServerConfig.HOST;
-import static ru.smax.config.ServerConfig.PORT;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ClientStarter {

@@ -1,4 +1,4 @@
-package ru.smax.config;
+package ru.smax.examples.config;
 
 public class ServerConfig {
     public static final String HOST = "localhost";

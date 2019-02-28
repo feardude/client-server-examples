@@ -1,4 +1,4 @@
-package ru.smax.netty.servers;
+package ru.smax.examples.netty;
 
 import static lombok.AccessLevel.PRIVATE;
 

@@ -1,4 +1,8 @@
-package ru.smax.netty.servers.time.client;
+package ru.smax.examples.netty.time.client;
+
+import static io.netty.channel.ChannelOption.SO_KEEPALIVE;
+import static ru.smax.examples.config.ServerConfig.HOST;
+import static ru.smax.examples.config.ServerConfig.PORT;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -6,11 +10,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.slf4j.Slf4j;
-import ru.smax.netty.servers.ChildHandlerInitializer;
 
-import static io.netty.channel.ChannelOption.SO_KEEPALIVE;
-import static ru.smax.config.ServerConfig.HOST;
-import static ru.smax.config.ServerConfig.PORT;
+import ru.smax.examples.netty.ChildHandlerInitializer;
 
 @Slf4j
 public class TimeClient {

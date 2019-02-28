@@ -1,4 +1,4 @@
-package ru.smax.netty.servers.time.client;
+package ru.smax.examples.netty.time.client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

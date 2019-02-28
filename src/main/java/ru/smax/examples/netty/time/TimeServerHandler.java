@@ -1,4 +1,4 @@
-package ru.smax.netty.servers.time;
+package ru.smax.examples.netty.time;
 
 import static io.netty.channel.ChannelFutureListener.CLOSE;
 import static java.time.Instant.EPOCH;

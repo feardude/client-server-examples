@@ -1,4 +1,4 @@
-package ru.smax.netty.servers.discard;
+package ru.smax.examples.netty.echo;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -7,17 +7,16 @@ import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class DiscardHandler extends ChannelInboundHandlerAdapter {
+public class EchoHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        // Discard data
         final ByteBuf in = (ByteBuf) msg;
 
         if (log.isDebugEnabled()) {
-            log.debug(in.toString(CharsetUtil.US_ASCII).trim());
+            log.debug("echo: {}", in.toString(CharsetUtil.US_ASCII).trim());
         }
 
-        in.release();
+        ctx.writeAndFlush(msg);
     }
 
     @Override
